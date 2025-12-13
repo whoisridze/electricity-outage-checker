@@ -1,0 +1,109 @@
+name: Build Executables
+
+on:
+  push:
+    branches:
+      - feature/executables
+  pull_request:
+    branches:
+      - feature/executables
+  workflow_dispatch:
+
+jobs:
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install uv
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
+
+      - name: Install dependencies
+        run: |
+          uv sync
+          uv pip install pyinstaller
+
+      - name: Build executable
+        run: uv run pyinstaller --target-arch universal2 outage-checker.spec
+
+      - name: Verify executable
+        run: |
+          ls -lh dist/
+          file dist/outage-checker
+          dist/outage-checker --version
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: outage-checker-macos
+          path: dist/outage-checker
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install uv
+        run: irm https://astral.sh/uv/install.ps1 | iex
+
+      - name: Install dependencies
+        run: |
+          uv sync
+          uv pip install pyinstaller
+
+      - name: Build executable
+        run: uv run pyinstaller outage-checker.spec
+
+      - name: Verify executable
+        run: |
+          Get-ChildItem dist/
+          dist/outage-checker.exe --version
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: outage-checker-windows.exe
+          path: dist/outage-checker.exe
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install uv
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
+
+      - name: Install dependencies
+        run: |
+          uv sync
+          uv pip install pyinstaller
+
+      - name: Build executable
+        run: uv run pyinstaller outage-checker.spec
+
+      - name: Verify executable
+        run: |
+          ls -lh dist/
+          file dist/outage-checker
+          dist/outage-checker --version
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: outage-checker-linux
+          path: dist/outage-checker

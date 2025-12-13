@@ -83,7 +83,7 @@ def check(
     address: Annotated[
         str | None,
         typer.Argument(
-            help="Address to check (format: 'city, street, house'). "
+            help="Address to check (format: city, street, house). "
             "Uses default address if not provided."
         ),
     ] = None,
@@ -118,7 +118,7 @@ def check(
                     "List houses on a street\n"
                 )
                 address_input = typer.prompt(
-                    "\nEnter your address (format: 'city, street, house')"
+                    "\nEnter your address (format: city, street, house)"
                 )
 
                 try:
@@ -188,7 +188,7 @@ def check(
 def set_address(
     address: Annotated[
         str,
-        typer.Argument(help="Address to set as default (format: 'city, street, house')"),
+        typer.Argument(help="Address to set as default (format: city, street, house)"),
     ],
 ) -> None:
     """Set the default address for schedule checks."""
@@ -258,7 +258,7 @@ def list_streets(
         typer.Argument(help="City/settlement name to list streets for"),
     ],
 ) -> None:
-    """List all available streets in a city."""
+    """List all available streets in a city (usage: CITY)."""
     try:
         with DTEKClient() as client:
             streets, _, _ = client.fetch_schedule_page()
@@ -288,7 +288,7 @@ def list_houses(
         typer.Argument(help="Street name"),
     ],
 ) -> None:
-    """List all available houses on a street."""
+    """List all available houses on a street (usage: CITY STREET)."""
     try:
         with DTEKClient() as client:
             houses = client.fetch_houses(city, street)
