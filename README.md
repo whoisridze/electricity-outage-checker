@@ -12,14 +12,44 @@
 
 ## Installation
 
-### Install from PyPI
+### Option 1: Download Executable (Recommended)
+
+Standalone executables are automatically built by GitHub Actions for each release.
+
+1. Go to [**Releases**](https://github.com/whoisridze/electricity-outage-checker/releases/latest)
+2. Download the executable for your platform:
+   - **macOS**: `outage-checker-macos` (universal binary for Intel & Apple Silicon)
+   - **Windows**: `outage-checker-windows.exe`
+   - **Linux**: `outage-checker-linux`
+3. Make it executable (macOS/Linux only):
+   ```bash
+   chmod +x outage-checker-macos
+   ```
+4. Run it:
+   ```bash
+   ./outage-checker-macos --help
+   ```
+
+**Want to build the executable yourself?**
+```bash
+# Install dependencies
+uv sync
+
+# Build executable
+uv run pyinstaller outage-checker.spec
+
+# The executable will be in dist/outage-checker
+./dist/outage-checker --help
+```
+
+### Option 2: Install from PyPI
 
 ```bash
 pip install electricity-outage-checker
 outage-checker --help
 ```
 
-### Install from source
+### Option 3: Install from Source
 
 ```bash
 git clone https://github.com/whoisridze/electricity-outage-checker.git
@@ -68,6 +98,9 @@ uv run ruff check --fix .
 
 # Run type checker
 uv run mypy src/
+
+# Build executable
+uv run pyinstaller outage-checker.spec
 ```
 
 ## Project Structure
