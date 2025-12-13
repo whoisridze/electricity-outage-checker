@@ -33,7 +33,7 @@ jobs:
           uv pip install pyinstaller
 
       - name: Build executable
-        run: uv run pyinstaller --target-arch universal2 outage-checker.spec
+        run: uv run pyinstaller outage-checker.spec
 
       - name: Rename executable
         run: mv dist/outage-checker dist/outage-checker-macos

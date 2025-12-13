@@ -1,9 +1,13 @@
 # -*- mode: python ; coding: utf-8 -*-
 """PyInstaller spec file for electricity-outage-checker."""
 
+import sys
 from PyInstaller.utils.hooks import collect_data_files
 
 block_cipher = None
+
+# Build universal2 binary on macOS (Intel + Apple Silicon)
+target_arch = 'universal2' if sys.platform == 'darwin' else None
 
 # Collect data files from dependencies
 datas = []
@@ -59,7 +63,7 @@ exe = EXE(
     console=True,
     disable_windowed_traceback=False,
     argv_emulation=False,
-    target_arch=None,
+    target_arch=target_arch,
     codesign_identity=None,
     entitlements_file=None,
 )
