@@ -3,10 +3,10 @@ name: Build Executables
 on:
   push:
     branches:
-      - feature/executables
+      - main
   pull_request:
     branches:
-      - feature/executables
+      - main
   workflow_dispatch:
 
 jobs:
